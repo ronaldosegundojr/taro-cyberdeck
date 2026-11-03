@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>COLMEIA OS - Cyberdeck Suite</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=VT323&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#39ff14">
+</head>
+<body class="crt-flickering">
+
+  <!-- CRT SCREEN VISUAL FILTER -->
+  <div class="crt-overlay"></div>
+
+  <!-- OS SCREEN WRAPPER -->
+  <div class="screen-wrapper">
+
+    <!-- HEADER STATUS BAR -->
+    <header class="status-bar">
+      <div class="system-title">[ COLMEIA OS v1.0.4 ]</div>
+      <div class="status-info">
+        WIFI: <span id="wifi-name">COLD_NET_5G</span> | 
+        IP: <span id="ip-addr">192.168.1.137</span> | 
+        TEMP: <span id="cpu-temp">39.0°C</span> | 
+        UPTIME: <span id="system-uptime">0m 0s</span> | 
+        CON: <span id="net-status">ONLINE</span>
+      </div>
+    </header>
+
+    <!-- SCREEN 0: OS MAIN MENU (ROOT) -->
+    <div id="screen-os-menu" class="app-screen active">
+      <div class="os-logo-container">
+  ____ ___  _     __  __ _____ ___   _      ___  ____  
+ / ___/ _ \| |   |  \/  | ____|_ _| / \    / _ \/ ___| 
+| |  | | | | |   | |\/| |  _|  | | / _ \  | | | \___ \ 
+| |__| |_| | |___| |  | | |___ | |/ ___ \ | |_| |___) |
+ \____\___/|_____|_|  |_|_____|___/_/   \_\\___/|____/ 
+      </div>
+      <div class="ascii-box">
+        <span class="corner tl">┌</span>
+        <span class="corner tr">┐</span>
+        <span class="corner bl">└</span>
+        <span class="corner br">┘</span>
+        <div class="menu-list" id="os-menu-list">
+          <div class="menu-item selected" data-action="terminal">
+            <span class="menu-label">• TERMINAL</span>
+            <span class="menu-dots"></span>
+          </div>
+          <div class="menu-item" data-action="entidade">
+            <span class="menu-label">• ENTIDADE</span>
+            <span class="menu-dots"></span>
+          </div>
+          <div class="menu-item" data-action="conexoes">
+            <span class="menu-label">• CONEXOES</span>
+            <span class="menu-dots"></span>
+          </div>
+          <div class="menu-item" data-action="sysmonitor">
+            <span class="menu-label">• MONITOR DO SISTEMA</span>
+            <span class="menu-dots"></span>
+          </div>
+          <div class="menu-item" data-action="navegador">
+            <span class="menu-label">• NAVEGADOR</span>
+            <span class="menu-dots"></span>
+          </div>
+          <div class="menu-item" data-action="games">
+            <span class="menu-label">• GAMES / HACKING</span>
+            <span class="menu-dots"></span>
+          </div>
+          <div class="menu-item" data-action="tarot">
+            <span class="menu-label">• APPS (TAROT SUITE)</span>
+            <span class="menu-dots"></span>
+          </div>
+          <div class="menu-item" data-action="configs">
+            <span class="menu-label">• CONFIGURACOES</span>
+            <span class="menu-dots"></span>
+          </div>
+          <div class="menu-item" data-action="reboot">
+            <span class="menu-label">• REINICIAR</span>
+            <span class="menu-dots"></span>
+          </div>
+          <div class="menu-item" data-action="shutdown">
+            <span class="menu-label">• DESLIGAR</span>
+            <span class="menu-dots"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCREEN: TERMINAL -->
+    <div id="screen-terminal" class="app-screen">
+      <div class="terminal-container">
+        <div class="terminal-history" id="term-history">COLMEIA SHELL v1.0.4 - TERMINAL MOCKADO INTELIGENTE
+Digite 'help' para comandos disponiveis.
+</div>
+        <div class="terminal-input-row">
+          <span class="terminal-prompt">netrunner@colmeia:~$</span>
+          <input type="text" class="terminal-input" id="term-input" autocomplete="off" autofocus>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCREEN: ENTIDADE (ORACLE CHAT) -->
+    <div id="screen-entidade" class="app-screen">
+      <div class="chat-container">
+        <div class="chat-history" id="chat-hist">
+          <div class="chat-msg entity">ENTIDADE: Conexão neural estabelecida. Eu vejo os pacotes fluindo no ciberespaço. Faça sua pergunta, hacker...</div>
+        </div>
+        <div class="terminal-input-row">
+          <span class="terminal-prompt">></span>
+          <input type="text" class="terminal-input" id="chat-input" placeholder="Digite sua pergunta..." autocomplete="off">
+        </div>
+      </div>
+    </div>
+
+    <!-- SCREEN: CONEXOES -->
+    <div id="screen-conexoes" class="app-screen">
+      <div class="ascii-box" style="flex-grow:1; display:flex; flex-direction:column; gap:10px;">
+        <span class="corner tl">┌</span><span class="corner tr">┐</span><span class="corner bl">└</span><span class="corner br">┘</span>
+        <div style="font-weight:bold; border-bottom:1px solid var(--neon-primary); padding-bottom:4px;">GERENCIADOR DE LINKS E ANTENAS</div>
+        <div style="font-family:monospace; font-size:12px; flex-grow:1; display:flex; flex-direction:column; gap:12px;">
+          <div>[+] ESCANEANDO SINAIS LOCAIS...</div>
+          <div style="display:flex; flex-direction:column; gap:4px;" id="network-scanned-list">
+            <!-- Dynamically updated -->
+          </div>
+          <div style="border-top:1px dashed var(--neon-primary); padding-top:8px;">
+            <div>HOST MONITOR ATIVO:</div>
+            <div>STATUS PORTAS - 127.0.0.1: [ 22/SSH: OPEN ] [ 80/HTTP: OPEN ] [ 443/HTTPS: CLOSED ] [ 8080/PROXY: MONITORING ]</div>
+            <div id="ping-monitor" style="color:var(--neon-secondary); margin-top:8px;">PINGING 1.1.1.1 ... 12ms</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCREEN: SYSTEM MONITOR (HTOP LOOK-ALIKE) -->
+    <div id="screen-sysmonitor" class="app-screen">
+      <div class="monitor-grid">
+        <div class="monitor-column">
+          <div class="ascii-box">
+            <span class="corner tl">┌</span><span class="corner tr">┐</span><span class="corner bl">└</span><span class="corner br">┘</span>
+            <div class="bar-container">
+              <div class="bar-label"><span>CPU 0</span><span id="mon-cpu0-text">45%</span></div>
+              <div class="bar-track"><div class="bar-fill" id="mon-cpu0-fill"></div></div>
+            </div>
+            <div class="bar-container">
+              <div class="bar-label"><span>CPU 1</span><span id="mon-cpu1-text">20%</span></div>
+              <div class="bar-track"><div class="bar-fill" id="mon-cpu1-fill"></div></div>
+            </div>
+            <div class="bar-container">
+              <div class="bar-label"><span>RAM</span><span id="mon-ram-text">3840MB / 8192MB</span></div>
+              <div class="bar-track"><div class="bar-fill" id="mon-ram-fill"></div></div>
+            </div>
+            <div class="bar-container">
+              <div class="bar-label"><span>SWAP</span><span id="mon-swap-text">256MB / 4096MB</span></div>
+              <div class="bar-track"><div class="bar-fill" id="mon-swap-fill"></div></div>
+            </div>
+          </div>
+          <div class="ascii-box" style="flex-grow:1; font-family:monospace; font-size:11px;">
+            <span class="corner tl">┌</span><span class="corner tr">┐</span><span class="corner bl">└</span><span class="corner br">┘</span>
+            <div>TEMP NUCLEO: <span id="mon-temp">41.2°C</span></div>
+            <div>VOLTAGEM: 1.25V</div>
+            <div>DISCO: 12.4GB / 64GB [21%]</div>
+            <div style="color:var(--neon-secondary); margin-top:6px;">SHIELD STATUS: SECURE</div>
+          </div>
+        </div>
+        <div class="ascii-box" style="overflow-y:auto;">
+          <span class="corner tl">┌</span><span class="corner tr">┐</span><span class="corner bl">└</span><span class="corner br">┘</span>
+          <table class="proc-table">
+            <thead>
+              <tr><th>PID</th><th>PROC</th><th>CPU</th><th>MEM</th></tr>
+            </thead>
+            <tbody id="proc-list">
+              <!-- Dynamically populated process list -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCREEN: NAVEGADOR -->
+    <div id="screen-navegador" class="app-screen">
+      <div class="browser-wrapper">
+        <div class="browser-bar">
+          <button id="btn-browser-back" style="background:transparent; border:1px solid var(--neon-primary); color:inherit; padding:1px 6px; cursor:pointer;">< BACK</button>
+          <span class="browser-url" id="browser-url-text">cyber://colmeia.node</span>
+        </div>
+        <div class="browser-content" id="browser-content-panel">
+          <!-- Dynamically loaded sites -->
+        </div>
+      </div>
+    </div>
+
+    <!-- SCREEN: GAMES / BREECH PROTOCOL -->
+    <div id="screen-games" class="app-screen">
+      <div class="breech-container">
+        <div class="breech-grid-side">
+          <div style="font-weight:bold; margin-bottom:8px; font-size:12px; color:var(--neon-secondary);">MATRIX DE PROTOCOLO DE INVASÃO</div>
+          <div class="breech-matrix" id="breech-board"></div>
+        </div>
+        <div class="breech-info-side">
+          <div>
+            <div style="font-weight:bold;">SEQUENCIA BUFFER</div>
+            <div class="breech-target-seq" id="breech-target">
+              <!-- Target sequence bytes -->
+            </div>
+            <div style="font-size:11px; margin-top:4px; opacity:0.8;">
+              Selecione bytes alternando horizontal/vertical. Combine a sequencia alvo para invadir a rede corporativa.
+            </div>
+          </div>
+          <div>
+            <div style="font-weight:bold;">SEU BUFFER DE TENTATIVAS</div>
+            <div class="breech-buffer" id="breech-player-buffer">
+              <!-- Slots filled as selected -->
+            </div>
+          </div>
+          <div id="breech-result" style="font-weight:bold; font-size:14px; text-align:center; padding:5px 0;"></div>
+          <button id="btn-breech-reset" style="background:var(--neon-primary); color:var(--contrast-color); font-weight:bold; border:none; padding:5px; cursor:pointer;">REINICIAR PUZZLE</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCREEN: CONFIGURACOES -->
+    <div id="screen-configs" class="app-screen">
+      <div class="ascii-box" style="flex-grow:1;">
+        <span class="corner tl">┌</span><span class="corner tr">┐</span><span class="corner bl">└</span><span class="corner br">┘</span>
+        <div class="config-grid">
+          <div class="config-row">
+            <span>PALETA DE COR DO SISTEMA:</span>
+            <select id="config-color-theme" style="background:#000; color:var(--neon-primary); border:1px solid var(--neon-primary); font-family:inherit;">
+              <option value="default">VERDE NEON (HTOP)</option>
+              <option value="cyberpink">CYBERPINK (TAROT)</option>
+              <option value="amber">PIPBΟΥ AMBER</option>
+              <option value="ice">AZUL GLACIAL</option>
+            </select>
+          </div>
+          <div class="config-row">
+            <span>CRT SCANLINES:</span>
+            <select id="config-crt" style="background:#000; color:var(--neon-primary); border:1px solid var(--neon-primary); font-family:inherit;">
+              <option value="on">ATIVADO</option>
+              <option value="off">DESATIVADO</option>
+            </select>
+          </div>
+          <div class="config-row">
+            <span>EFEITOS SONOROS (WEB AUDIO):</span>
+            <select id="config-audio" style="background:#000; color:var(--neon-primary); border:1px solid var(--neon-primary); font-family:inherit;">
+              <option value="on">ATIVADO</option>
+              <option value="off">DESATIVADO</option>
+            </select>
+          </div>
+          <div class="config-row">
+            <span>VOLUME SYNTH:</span>
+            <select id="config-volume" style="background:#000; color:var(--neon-primary); border:1px solid var(--neon-primary); font-family:inherit;">
+              <option value="high">ALTO</option>
+              <option value="medium" selected>MEDIO</option>
+              <option value="low">BAIXO</option>
+            </select>
+          </div>
+          <div class="config-row">
+            <span>DECK DE TAROT ATIVO:</span>
+            <select id="config-tarot-deck" style="background:#000; color:var(--neon-primary); border:1px solid var(--neon-primary); font-family:inherit;">
+              <option value="cyberpunk">CYBERPUNK 2077 (MAJORS ONLY)</option>
+              <option value="rws">RIDER-WAITE-SMITH (FULL 78)</option>
+              <option value="thoth">TAROT OF THOTH (FULL 78)</option>
+              <option value="marselha">TAROT DE MARSELHA (FULL 78)</option>
+            </select>
+          </div>
+          <div class="config-row" style="border-bottom:none; margin-top:20px; display:flex; justify-content:center;">
+            <button id="btn-clear-data" style="background:transparent; border:1px solid var(--neon-primary); color:inherit; padding:5px 12px; cursor:pointer;">LIMPAR DADOS DE SISTEMA (RESET HISTORICO)</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCREEN: TAROT SUITE (CONTAINER) -->
+    <div id="screen-tarot" class="app-screen">
+      
+      <!-- SUB-SCREEN 1: SPLASH -->
+      <div id="tarot-screen-splash" class="tarot-screen-content">
+        <div class="tarot-splash-logo">
+  _____ ___  ____   ___ _____ 
+ |_   _/ _ \|  _ \ / _ \_   _|
+   | || |_| | |_) | | | || |  
+   | ||  _  |  _ <| |_| || |  
+   |_||_| |_|_| \_\\___/ |_|  
+        </div>
+        <div style="font-size:12px; text-transform:uppercase; color:var(--neon-secondary);">
+          Sistemas Ocultos Integrados • V1.8.8
+        </div>
+        <div style="font-size:11px; opacity:0.8; font-style:italic;">
+          "As frequências invisíveis do silício traduzidas ao destino."
+        </div>
+        <div class="loading-dots" id="splash-dots">
+          <span class="loading-dot">•</span>
+          <span class="loading-dot">•</span>
+          <span class="loading-dot">•</span>
+          <span class="loading-dot">•</span>
+          <span class="loading-dot">•</span>
+          <span class="loading-dot">•</span>
+        </div>
+      </div>
+
+      <!-- SUB-SCREEN 2: TAROT MENU -->
+      <div id="tarot-screen-menu" class="tarot-screen-content">
+        <div class="ascii-box" style="flex-grow:1; display:flex; flex-direction:column; justify-content:center;">
+          <span class="corner tl">┌</span><span class="corner tr">┐</span><span class="corner bl">└</span><span class="corner br">┘</span>
+          <div class="menu-list" id="tarot-menu-list">
+            <div class="menu-item selected" data-action="draw-daily">
+              <span class="menu-label">• TIRAGEM DIARIA (1 CARTA)</span>
+              <span class="menu-dots"></span>
+            </div>
+            <div class="menu-item" data-action="draw-three">
+              <span class="menu-label">• TIRAGEM DE 3 CARTAS (PASSADO/PRESENTE/FUTURO)</span>
+              <span class="menu-dots"></span>
+            </div>
+            <div class="menu-item" data-action="draw-celta">
+              <span class="menu-label">• TIRAGEM CELTA (10 CARTAS SEQUENCIAIS)</span>
+              <span class="menu-dots"></span>
+            </div>
+            <div class="menu-item" data-action="tarot-history">
+              <span class="menu-label">• HISTORICO DE TIRAGENS</span>
+              <span class="menu-dots"></span>
+            </div>
+            <div class="menu-item" data-action="tarot-about">
+              <span class="menu-label">• SOBRE O BARALHO</span>
+              <span class="menu-dots"></span>
+            </div>
+            <div class="menu-item" data-action="tarot-deck-switch">
+              <span class="menu-label">• TROCAR DECK [ATUAL: <span id="tarot-deck-current">CYBERPUNK</span>]</span>
+              <span class="menu-dots"></span>
+            </div>
+            <div class="menu-item" data-action="tarot-back">
+              <span class="menu-label">• VOLTAR AO MENU DO OS</span>
+              <span class="menu-dots"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SUB-SCREEN 3: SHUFFLE ANIMAÇÃO -->
+      <div id="tarot-screen-shuffle" class="tarot-screen-content">
+        <div class="ascii-box" style="flex-grow:1; display:flex; flex-direction:column; justify-content:center; align-items:center;">
+          <span class="corner tl">┌</span><span class="corner tr">┐</span><span class="corner bl">└</span><span class="corner br">┘</span>
+          <div style="font-weight:bold; font-size:14px; margin-bottom:15px; color:var(--neon-secondary);" id="shuffle-heading">EMBARALHANDO CIRCUITO MISTICO...</div>
+          <div class="shuffle-area" id="shuffle-deck-area">
+            <!-- Simulated shuffling cards -->
+          </div>
+          <div style="font-size:11px; margin-top:10px; opacity:0.8;">Sincronizando frequências neurais...</div>
+        </div>
+      </div>
+
+      <!-- SUB-SCREEN 4: DRAW (CARD DRAW & REVELATION) -->
+      <div id="tarot-screen-draw" class="tarot-screen-content">
+        <div class="draw-layout">
+          <div class="draw-cards-row" id="draw-cards-area">
+            <!-- 3D Card triggers here -->
+          </div>
+          
+          <div class="toast-banner" id="draw-marquee-pannel">NENHUMA CARTA DECODIFICADA</div>
+
+          <div class="ascii-box draw-interpretation-box">
+            <span class="corner tl">┌</span><span class="corner tr">┐</span><span class="corner bl">└</span><span class="corner br">┘</span>
+            <div class="draw-position-title" id="draw-pos-title">LEITURA DETALHADA</div>
+            <div class="draw-text-para" id="draw-meaning-text">Escolha e clique em uma carta para iniciar a leitura.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SUB-SCREEN 5: NEURAL INTERPRETATION -->
+      <div id="tarot-screen-neural" class="tarot-screen-content">
+        <div class="neural-box-layout">
+          <div class="neural-sidebar" id="neural-sidebar-content">
+            <!-- Vertical decorative details -->
+          </div>
+          <div class="neural-content-panel">
+            <div style="font-weight:bold; font-size:13px; color:var(--neon-secondary); border-bottom:1px dashed var(--neon-primary); padding-bottom:4px;">
+              ◄ INTERPRETACAO NEURAL DE DADOS ►
+            </div>
+            <div class="neural-typewriter-box" id="neural-typewriter-area">
+              <!-- Lines typed dynamically -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SUB-SCREEN 6: HISTORY LIST -->
+      <div id="tarot-screen-history" class="tarot-screen-content">
+        <div class="ascii-box" style="flex-grow:1; display:flex; flex-direction:column; overflow:hidden;">
+          <span class="corner tl">┌</span><span class="corner tr">┐</span><span class="corner bl">└</span><span class="corner br">┘</span>
+          <div style="font-weight:bold; margin-bottom:8px; border-bottom:1px solid var(--neon-primary); padding-bottom:4px;">HISTORICO DE PROCESSAMENTOS DE TAROT</div>
+          <div class="history-container" id="history-items-list">
+            <!-- Items filled from localStorage -->
+          </div>
+        </div>
+      </div>
+
+      <!-- SUB-SCREEN 7: ABOUT THE DECK -->
+      <div id="tarot-screen-about" class="tarot-screen-content">
+        <div class="ascii-box" style="flex-grow:1; display:flex; flex-direction:column; justify-content:center; align-items:center; padding:20px; font-family:monospace; line-height:1.6;">
+          <span class="corner tl">┌</span><span class="corner tr">┐</span><span class="corner bl">└</span><span class="corner br">┘</span>
+          <div style="font-weight:bold; font-size:14px; margin-bottom:10px; color:var(--neon-secondary);">SOBRE O DECK / ALGORITMO MISTICO</div>
+          <div style="font-size:12px; text-align:justify; max-width:500px;">
+            Este aplicativo traduz o tarô tradicional em fluxos de sinais binários e padrões analógicos. Cada carta funciona como um operador conceitual, conectando os arquétipos arcaicos da psique humana com a matriz cibernética.
+            <br><br>
+            A seleção dos baralhos (RWS, Thoth, Marselha e Cyberpunk 2077) altera a correspondência semântica e os codinomes das chaves de dados dos arcanos. Os arcanos menores utilizam um algoritmo sintático programático que gera caminhos probabilísticos unindo a numerologia das portas digitais aos elementos fundamentais da rede profunda.
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- REBOOT SCREEN (OVERLAY) -->
+    <div id="overlay-reboot" class="overlay-screen">
+      <div style="font-weight:bold; font-size:16px; margin-bottom:12px;">REINICIANDO COLMEIA OS...</div>
+      <div class="reboot-log" id="reboot-logs"></div>
+    </div>
+
+    <!-- SHUTDOWN SCREEN (OVERLAY) -->
+    <div id="overlay-shutdown" class="overlay-screen">
+      <div class="shutdown-crt-line" id="shut-line"></div>
+      <div id="shut-text" style="font-weight:bold; font-size:14px;">DESLIGANDO FONTE DE ALIMENTACAO... [OK]</div>
+    </div>
+
+    <!-- FOOTER COMMANDS LEGEND -->
+    <footer class="footer-bar" id="footer-actions">
+      [↕] NAVEGAR   [ENTER/CLICK] SELECIONAR   [Q] SAIR/VOLTAR
+    </footer>
+
+  </div>
+
+  <!-- JAVASCRIPT CODE -->
+  <script src="platform.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

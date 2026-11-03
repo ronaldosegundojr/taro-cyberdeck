@@ -1,0 +1,36 @@
+{
+  "name": "taro-cyberdeck",
+  "version": "2.0.0",
+  "description": "COLMEIA OS - Cyberdeck Tarot & OS Suite (Web / Electron / Raspberry Pi / Orange Pi)",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron .",
+    "serve": "node server.js",
+    "web": "node server.js",
+    "pi": "node server.js",
+    "build": "electron-builder",
+    "build:pi": "echo 'For Pi: copy this folder and run node server.js'"
+  },
+  "author": "Antigravity",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "electron": "^31.0.0"
+  },
+  "build": {
+    "appId": "com.colmeia.cyberdeck",
+    "productName": "COLMEIA OS",
+    "files": [
+      "index.html",
+      "styles.css",
+      "app.js",
+      "platform.js",
+      "manifest.json"
+    ],
+    "linux": {
+      "target": ["AppImage", "deb"],
+      "category": "Utility"
+    }
+  }
+}
